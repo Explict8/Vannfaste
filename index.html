@@ -1,495 +1,348 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🏞️ Vannfaste Tracker med Vektgraf</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-    color: #333;
-    margin: 0;
-    padding: 20px;
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    background-clip: padding-box;
-  }
-  h1 {
-    text-align: center;
-    color: #0b3d91;
-    margin-bottom: 15px;
-  }
-  .timer {
-    font-size: 2.5em;
-    font-weight: 700;
-    text-align: center;
-    margin: 10px 0 15px;
-    color: #0b3d91;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
-  }
-  button {
-    background: #0b3d91;
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1.1em;
-    width: 100%;
-    margin: 15px 0 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    box-shadow: 0 4px 10px rgba(11, 61, 145, 0.4);
-  }
-  button:hover {
-    background: #144ea0;
-  }
-  .fase {
-    background: white;
-    border-radius: 12px;
-    padding: 18px 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    font-size: 1em;
-    line-height: 1.5;
-    white-space: pre-line;
-    color: #212121;
-    margin-bottom: 25px;
-  }
-  input {
-    width: 100%;
-    padding: 12px;
-    font-size: 1em;
-    border-radius: 10px;
-    border: 1.5px solid #a0a0a0;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
-  input:focus {
-    outline: none;
-    border-color: #0b3d91;
-    box-shadow: 0 0 8px rgba(11, 61, 145, 0.3);
-  }
-  .log-entry {
-    background: white;
-    border-radius: 10px;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    font-size: 0.95em;
-    color: #222;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .log-text {
-    flex-grow: 1;
-    margin-right: 10px;
-    white-space: nowrap;
-  }
-  .edit-btn, .delete-btn, .save-btn, .cancel-btn {
-    background: #0b3d91;
-    border: none;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85em;
-    margin-left: 5px;
-    transition: background 0.3s ease;
-  }
-  .edit-btn:hover, .save-btn:hover {
-    background: #144ea0;
-  }
-  .delete-btn:hover, .cancel-btn:hover {
-    background: #a32b2b;
-  }
-  h2 {
-    color: #0b3d91;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #0b3d91;
-    padding-bottom: 5px;
-  }
-  .progress-container {
-    width: 100%;
-    background: #d1d9e6;
-    border-radius: 15px;
-    overflow: hidden;
-    height: 25px;
-    margin-bottom: 15px;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-  }
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #0b3d91, #4a72d1);
-    width: 0%;
-    transition: width 0.4s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-  .fase-title {
-    font-weight: 700;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #0b3d91;
-    font-size: 1.1em;
-  }
-  .fase-icon {
-    width: 24px;
-    height: 24px;
-    fill: #0b3d91;
-  }
-  .motivasjon {
-    background: #e0f0fc;
-    border-radius: 12px;
-    padding: 12px 18px;
-    font-style: italic;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(11, 61, 145, 0.15);
-    color: #0b3d91;
-    text-align: center;
-    font-size: 1.1em;
-  }
-  .edit-input {
-    font-size: 0.95em;
-    padding: 6px;
-    border-radius: 8px;
-    border: 1.5px solid #0b3d91;
-    width: 100px;
-    box-sizing: border-box;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vannfaste</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 20px;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 12px;
+      background: linear-gradient(-45deg, #74ebd5, #ACB6E5, #74ebd5, #ACB6E5);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #222;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      background-clip: padding-box;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      text-align: center;
+      color: #0b3d91;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+    .timer {
+      font-size: 2.5em;
+      font-weight: 700;
+      text-align: center;
+      margin: 10px 0 0;
+      color: #0b3d91;
+      user-select: none;
+    }
+    .starttid-visning {
+      text-align: center;
+      font-size: 0.9em;
+      color: #222;
+      margin-bottom: 10px;
+      user-select: none;
+    }
+    .progress-container {
+      width: 100%;
+      background: rgba(255 255 255 / 0.6);
+      border-radius: 15px;
+      overflow: hidden;
+      height: 25px;
+      margin-bottom: 15px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #0b3d91, #4a72d1);
+      width: 0%;
+      transition: width 0.4s ease;
+      border-radius: 15px 0 0 15px;
+    }
+    button {
+      background: #0b3d91;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1em;
+      width: 100%;
+      margin: 8px 0;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(11, 61, 145, 0.4);
+    }
+    button:hover {
+      background-color: #064080;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1.5px solid #a0a0a0;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      user-select: text;
+    }
+    .fase, .motivasjon {
+      background: rgba(255 255 255 / 0.9);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+    .fase-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0b3d91;
+      font-size: 1.1em;
+    }
+    .fase-icon {
+      width: 24px;
+      height: 24px;
+      fill: #0b3d91;
+    }
+    h2 {
+      color: #0b3d91;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #0b3d91;
+      padding-bottom: 5px;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
 
-<h1>🏞️ Vannfaste Tracker</h1>
-<div class="timer" id="timer">Tid i faste: 0d 0t 0min 0s</div>
-<div class="progress-container" aria-label="Fremdriftsindikator for fastefasen">
-  <div class="progress-bar" id="progressBar"></div>
-</div>
+  <h1>🦆 Vannfaste</h1>
+  <div class="timer" id="timer">Tid i faste: 0d 0t 0min 0s</div>
+  <div class="starttid-visning" id="startTidVisning"></div>
+  <div class="progress-container" aria-label="Fremdriftsindikator for fastefasen">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
 
-<button id="startStop">Start faste</button>
-<div class="fase" id="fase">Fase: —</div>
+  <div id="kontroller" style="margin-bottom: 10px;">
+    <button id="startFastenBtn">Start faste</button>
+    <input type="datetime-local" id="startTidInput" />
+    <button id="angiStartTid">Angi starttid</button>
+    <button id="stoppFastenBtn" style="display:none; background:#b91c1c;">Stopp faste</button>
+  </div>
 
-<div class="motivasjon" id="motivasjon">Velkommen! Start fasten for å se motivasjon.</div>
+  <div class="fase" id="fase">Fase: —</div>
+  <div class="motivasjon" id="motivasjon">Velkommen! Start fasten for å se motivasjon.</div>
 
-<h2>Vektlogg</h2>
-<input type="number" id="vektInput" placeholder="Vekt i kg" step="0.1" />
-<button id="lagreVekt">Lagre vekt</button>
-<div id="vektLogg"></div>
+  <script>
+    let fasteStart = localStorage.getItem('fasteStart');
+    if (fasteStart) fasteStart = parseInt(fasteStart);
+    let timerInterval;
 
-<h2>Vektutvikling</h2>
-<canvas id="vektChart" width="400" height="250" aria-label="Graf som viser vektutvikling" role="img"></canvas>
+    const timerEl = document.getElementById('timer');
+    const faseEl = document.getElementById('fase');
+    const startFastenBtn = document.getElementById('startFastenBtn');
+    const stoppFastenBtn = document.getElementById('stoppFastenBtn');
+    const progressBar = document.getElementById('progressBar');
+    const motivasjonEl = document.getElementById('motivasjon');
+    const startTidInput = document.getElementById('startTidInput');
+    const angiStartTidBtn = document.getElementById('angiStartTid');
+    const startTidVisning = document.getElementById('startTidVisning');
+    const kontrollerDiv = document.getElementById('kontroller');
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  let fasteStart = localStorage.getItem('fasteStart');
-  if(fasteStart) fasteStart = parseInt(fasteStart);
-  let timerInterval;
+    const maxTimer = 28 * 24; // 28 dager i timer
 
-  const timerEl = document.getElementById('timer');
-  const faseEl = document.getElementById('fase');
-  const btn = document.getElementById('startStop');
-  const progressBar = document.getElementById('progressBar');
-  const motivasjonEl = document.getElementById('motivasjon');
+    const motivasjonMeldinger = [
+      "Dag 1: Du har startet en ny reise. Små steg bygger store vaner!",
+      "Dag 2: Kroppen din begynner å tilpasse seg. Hold fokus!",
+      "Dag 3: Autophagy og reparasjon er i gang. Du gjør en fantastisk jobb!",
+      "Dag 4: Mental klarhet øker. Fortsett med styrke!",
+      "Dag 5: Du bygger disiplin og velvære – hver dag teller.",
+      "Dag 6: Fettforbrenningen er i full gang. Kroppen takker deg.",
+      "Dag 7: Én uke gjennomført! Feir fremgangen og sett nye mål.",
+      "Dag 8: Vanene dine vokser seg sterkere. Du kan klare dette!",
+      "Dag 9: Kroppen renser og fornyer. Du er på rett vei.",
+      "Dag 10: Ti dager! Du har vist utrolig styrke og tålmodighet.",
+      "Dag 11: Energinivået ditt stabiliseres. Hold ut!",
+      "Dag 12: Du nærmer deg viktige helsefordeler. Stå på!",
+      "Dag 13: Kroppen er mer effektiv i energibruk. Bra jobbet!",
+      "Dag 14: To uker faste – du er en inspirasjon!",
+      "Dag 15: Disiplin og fokus gir resultater. Fortsett sånn!",
+      "Dag 16: Du har bygget momentum – ikke mist det nå!",
+      "Dag 17: Cellereparasjon pågår fortsatt. Kroppen jobber for deg.",
+      "Dag 18: Mentalt og fysisk styrket. Du er sterkere enn du tror.",
+      "Dag 19: Du har skapt en positiv syklus for helsen din.",
+      "Dag 20: Nesten tre uker – imponerende dedikasjon!",
+      "Dag 21: Tre uker faste! Kroppen din jubler, og du også.",
+      "Dag 22: Du bygger livslange vaner – fortsett med stolthet.",
+      "Dag 23: Energi og fokus øker. Du er i flytsonen.",
+      "Dag 24: Kroppen optimaliserer sin funksjon. Bra jobba!",
+      "Dag 25: Langvarig faste gir dyp regenerering. Du er en mester.",
+      "Dag 26: Viljestyrken din er inspirerende. Hold fast!",
+      "Dag 27: Du nærmer deg månedsmarkeringen. Fantastisk innsats!",
+      "Dag 28: 28 dager! En måned med forbedret helse og fokus. Gratulerer!"
+    ];
 
-  const vektInput = document.getElementById('vektInput');
-  const lagreVektBtn = document.getElementById('lagreVekt');
-  const vektLoggEl = document.getElementById('vektLogg');
+    function visFase(dager, timer) {
+      const totalTimer = dager * 24 + timer;
+      let tekst = '';
+      let faseTittel = '';
+      if (totalTimer < 12) {
+        faseTittel = '0–12t: Glukosefase';
+        tekst = `Kroppen bruker glukose fra siste måltid. Insulinnivået er høyt, og energien kommer hovedsakelig fra glykogenlagre.`;
+      } else if (totalTimer < 18) {
+        faseTittel = '12–18t: Ketose starter';
+        tekst = `Glykogenlagrene tømmes, og kroppen begynner å produsere ketoner som alternativ energikilde. Blodsukkeret synker gradvis.`;
+      } else if (totalTimer < 24) {
+        faseTittel = '18–24t: Autophagy starter';
+        tekst = `Cellefornyelse aktiveres. Skadede og gamle celler brytes ned og resirkuleres. Insulinnivået er lavt, veksthormon øker.`;
+      } else if (totalTimer < 48) {
+        faseTittel = '24–48t: Forsterket autophagy og veksthormon';
+        tekst = `Fettforbrenningen øker. Immunforsvaret stimuleres. Reparasjonsprosesser på cellenivå intensiveres.`;
+      } else if (totalTimer < 72) {
+        faseTittel = '48–72t: Immunreset og regenerering';
+        tekst = `Stamceller aktiveres, immunceller fornyes. Veksthormon er høyt, og kroppen jobber med omfattende reparasjon og fornyelse.`;
+      } else {
+        faseTittel = '>72t: Langvarig faste';
+        tekst = `Kroppen er i en dyp regenerativ tilstand med høy fettforbrenning og økt mental klarhet. Vedlikeholds- og reparasjonsprosesser dominerer.`;
+      }
 
-  const maxTimer = 28 * 24; // Maks 28 dager i timer
-
-  // Motivasjonsmeldinger
-  const motivasjonMeldinger = [
-    "Dag 1: Du har startet en ny reise. Små steg bygger store vaner!",
-    "Dag 2: Kroppen din begynner å tilpasse seg. Hold fokus!",
-    "Dag 3: Autophagy og reparasjon er i gang. Du gjør en fantastisk jobb!",
-    "Dag 4: Mental klarhet øker. Fortsett med styrke!",
-    "Dag 5: Du bygger disiplin og velvære – hver dag teller.",
-    "Dag 6: Fettforbrenning er i full gang. Kroppen takker deg.",
-    "Dag 7: Én uke gjennomført! Feir fremgangen og sett nye mål.",
-    "Dag 8: Vanene dine vokser seg sterkere. Du kan klare dette!",
-    "Dag 9: Kroppen renser og fornyer. Du er på rett vei.",
-    "Dag 10: Ti dager! Du har vist utrolig styrke og tålmodighet.",
-    "Dag 11: Energinivået ditt stabiliseres. Hold ut!",
-    "Dag 12: Du nærmer deg viktige helsefordeler. Stå på!",
-    "Dag 13: Kroppen er mer effektiv i energibruk. Bra jobbet!",
-    "Dag 14: To uker faste – du er en inspirasjon!",
-    "Dag 15: Disiplin og fokus gir resultater. Fortsett sånn!",
-    "Dag 16: Du har bygget momentum – ikke mist det nå!",
-    "Dag 17: Cellereparasjon pågår fortsatt. Kroppen jobber for deg.",
-    "Dag 18: Mentalt og fysisk styrket. Du er sterkere enn du tror.",
-    "Dag 19: Du har skapt en positiv syklus for helsen din.",
-    "Dag 20: Nesten tre uker – imponerende dedikasjon!",
-    "Dag 21: Tre uker faste! Kroppen din jubler, og du også.",
-    "Dag 22: Du bygger livslange vaner – fortsett med stolthet.",
-    "Dag 23: Energi og fokus øker. Du er i flytsonen.",
-    "Dag 24: Kroppen optimaliserer sin funksjon. Bra jobba!",
-    "Dag 25: Langvarig faste gir dyp regenerering. Du er en mester.",
-    "Dag 26: Viljestyrken din er inspirerende. Hold fast!",
-    "Dag 27: Du nærmer deg månedsmarkeringen. Fantastisk innsats!",
-    "Dag 28: 28 dager! En måned med forbedret helse og fokus. Gratulerer!"
-  ];
-
-  function oppdaterTimer() {
-    if (!fasteStart) return;
-    const now = Date.now();
-    const diff = now - fasteStart;
-    if(diff < 0) {
-      timerEl.textContent = `Tid i faste: 0d 0t 0min 0s`;
-      faseEl.textContent = "Fase: —";
-      progressBar.style.width = '0%';
-      motivasjonEl.textContent = "Starttidspunkt kan ikke være i fremtiden.";
-      return;
-    }
-    const s = Math.floor(diff / 1000);
-    const d = Math.floor(s / 86400);
-    const h = Math.floor((s % 86400) / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sek = s % 60;
-    timerEl.textContent = `Tid i faste: ${d}d ${h}t ${m}min ${sek}s`;
-    visFase(d, h + m/60);
-    visMotivasjon(d);
-  }
-
-  function visFase(dager, timer) {
-    const totalTimer = dager * 24 + timer;
-    let tekst = '';
-    let faseTittel = '';
-    if (totalTimer < 12) {
-      faseTittel = '0–12t: Glukosefase';
-      tekst = `Kroppen bruker glukose fra siste måltid. Insulinnivået er høyt, og energien kommer hovedsakelig fra glykogenlagre.`;
-    } else if (totalTimer < 18) {
-      faseTittel = '12–18t: Ketose starter';
-      tekst = `Glykogenlagrene tømmes, og kroppen begynner å produsere ketoner som alternativ energikilde. Blodsukkeret synker gradvis.`;
-    } else if (totalTimer < 24) {
-      faseTittel = '18–24t: Autophagy starter';
-      tekst = `Cellefornyelse aktiveres. Skadede og gamle celler brytes ned og resirkuleres. Insulinnivået er lavt, veksthormon øker.`;
-    } else if (totalTimer < 48) {
-      faseTittel = '24–48t: Forsterket autophagy og veksthormon';
-      tekst = `Fettforbrenningen øker. Immunforsvaret stimuleres. Reparasjonsprosesser på cellenivå intensiveres.`;
-    } else if (totalTimer < 72) {
-      faseTittel = '48–72t: Immunreset og regenerering';
-      tekst = `Stamceller aktiveres, immunceller fornyes. Veksthormon er høyt, og kroppen jobber med omfattende reparasjon og fornyelse.`;
-    } else {
-      faseTittel = '>72t: Langvarig faste';
-      tekst = `Kroppen er i en dyp regenerativ tilstand med høy fettforbrenning og økt mental klarhet. Vedlikeholds- og reparasjonsprosesser dominerer.`;
+      faseEl.innerHTML = `
+        <div class="fase-title" role="heading" aria-level="3">
+          <svg class="fase-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="10" stroke="#0b3d91" stroke-width="2" fill="none"/>
+            <path d="M12 6v6l4 2" stroke="#0b3d91" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          ${faseTittel}
+        </div>
+        <div>${tekst}</div>
+      `;
     }
 
-    faseEl.innerHTML = `
-      <div class="fase-title">
-        <svg class="fase-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="10" stroke="#0b3d91" stroke-width="2" fill="none"/>
-          <path d="M12 6v6l4 2" stroke="#0b3d91" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        ${faseTittel}
-      </div>
-      <div>${tekst}</div>
-    `;
+    function visMotivasjon(dager) {
+      let index = dager;
+      if (index >= motivasjonMeldinger.length) index = motivasjonMeldinger.length - 1;
+      if (dager < 0) index = 0;
+      motivasjonEl.textContent = motivasjonMeldinger[index];
+    }
 
-    const progressPercent = Math.min((totalTimer / maxTimer) * 100, 100);
-    progressBar.style.width = progressPercent + '%';
-  }
+    function visStartTid() {
+      if (!fasteStart) {
+        startTidVisning.textContent = '';
+        return;
+      }
+      const dato = new Date(fasteStart);
+      const formattert = dato.toLocaleString('no-NO', {
+        weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+      startTidVisning.textContent = `Startet: ${formattert}`;
+    }
 
-  function visMotivasjon(dager) {
-    let index = dager;
-    if(index >= motivasjonMeldinger.length) index = motivasjonMeldinger.length -1;
-    if (dager < 0) index = 0;
-    motivasjonEl.textContent = motivasjonMeldinger[index];
-  }
+    function oppdaterTimer() {
+      if (!fasteStart) return;
+      const diff = Date.now() - fasteStart;
+      if (diff < 0) {
+        timerEl.textContent = `Tid i faste: 0d 0t 0min 0s`;
+        faseEl.textContent = 'Fase: —';
+        progressBar.style.width = '0%';
+        motivasjonEl.textContent = 'Starttidspunkt kan ikke være i fremtiden.';
+        return;
+      }
+      const s = Math.floor(diff / 1000);
+      const d = Math.floor(s / 86400);
+      const h = Math.floor((s % 86400) / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const sek = s % 60;
+      timerEl.textContent = `Tid i faste: ${d}d ${h}t ${m}min ${sek}s`;
 
-  // Bekreftelsesdialog ved start/stop faste
-  btn.addEventListener('click', () => {
-    if(!fasteStart) {
-      if(confirm("Er du sikker på at du vil starte fasten?")) {
+      visFase(d, h + m / 60);
+      visMotivasjon(d);
+
+      const totalTimer = d * 24 + h + m / 60;
+      const progressPercent = Math.min((totalTimer / maxTimer) * 100, 100);
+      progressBar.style.width = progressPercent + '%';
+    }
+
+    angiStartTidBtn.addEventListener('click', () => {
+      const valgtTid = startTidInput.value;
+      if (!valgtTid) {
+        alert("Velg et gyldig starttidspunkt.");
+        return;
+      }
+      const valgtTidMs = new Date(valgtTid).getTime();
+      if (valgtTidMs > Date.now()) {
+        alert("Starttidspunkt kan ikke være i fremtiden.");
+        return;
+      }
+      fasteStart = valgtTidMs;
+      localStorage.setItem('fasteStart', fasteStart);
+      visStartTid();
+      oppdaterTimer();
+      clearInterval(timerInterval);
+      timerInterval = setInterval(oppdaterTimer, 1000);
+      settFastetilstand(true);
+    });
+
+    startFastenBtn.addEventListener('click', () => {
+      if (confirm("Er du sikker på at du vil starte fasten nå?")) {
         fasteStart = Date.now();
         localStorage.setItem('fasteStart', fasteStart);
-        btn.textContent = 'Stopp faste';
+        visStartTid();
         oppdaterTimer();
+        clearInterval(timerInterval);
         timerInterval = setInterval(oppdaterTimer, 1000);
+        settFastetilstand(true);
       }
-    } else {
-      if(confirm("Er du sikker på at du vil stoppe fasten?")) {
+    });
+
+    stoppFastenBtn.addEventListener('click', () => {
+      if (confirm("Er du sikker på at du vil stoppe fasten?")) {
         clearInterval(timerInterval);
         fasteStart = null;
         localStorage.removeItem('fasteStart');
-        btn.textContent = 'Start faste';
         timerEl.textContent = 'Tid i faste: 0d 0t 0min 0s';
         faseEl.textContent = 'Fase: —';
         motivasjonEl.textContent = 'Velkommen! Start fasten for å se motivasjon.';
         progressBar.style.width = '0%';
+        startTidVisning.textContent = '';
+        settFastetilstand(false);
       }
-    }
-  });
-
-  if (fasteStart) {
-    btn.textContent = 'Stopp faste';
-    oppdaterTimer();
-    timerInterval = setInterval(oppdaterTimer, 1000);
-  } else {
-    btn.textContent = 'Start faste';
-  }
-
-  // --- Vektlogg ---
-  lagreVektBtn.addEventListener('click', () => {
-    const vekt = parseFloat(vektInput.value);
-    if(isNaN(vekt) || vekt <= 0) {
-      alert("Skriv inn en gyldig vekt.");
-      return;
-    }
-    const data = JSON.parse(localStorage.getItem('vektLogg') || '[]');
-    data.push({ id: Date.now(), tid: Date.now(), vekt: vekt });
-    localStorage.setItem('vektLogg', JSON.stringify(data));
-    vektInput.value = '';
-    visVektLogg();
-    oppdaterGraf();
-  });
-
-  function visVektLogg() {
-    const data = JSON.parse(localStorage.getItem('vektLogg') || '[]');
-    vektLoggEl.innerHTML = data.map(e => `
-      <div class="log-entry" data-id="${e.id}">
-        <div class="log-text">${new Date(e.tid).toLocaleDateString()} - ${e.vekt.toFixed(1)} kg</div>
-        <div>
-          <button class="edit-btn">Rediger</button>
-          <button class="delete-btn">Slett</button>
-        </div>
-      </div>
-    `).join('');
-    settOppVektEventer();
-  }
-
-  function settOppVektEventer() {
-    document.querySelectorAll('#vektLogg .edit-btn').forEach(btn => {
-      btn.onclick = () => {
-        const parent = btn.closest('.log-entry');
-        redigerVekt(parent);
-      };
     });
-    document.querySelectorAll('#vektLogg .delete-btn').forEach(btn => {
-      btn.onclick = () => {
-        const parent = btn.closest('.log-entry');
-        slettVekt(parent.dataset.id);
-      };
-    });
-  }
 
-  function redigerVekt(element) {
-    const id = element.dataset.id;
-    const gammelVekt = parseFloat(element.querySelector('.log-text').textContent.match(/([\d\.]+)/)[0]);
-    element.innerHTML = `
-      <input type="number" class="edit-input" value="${gammelVekt}" step="0.1" />
-      <button class="save-btn">Lagre</button>
-      <button class="cancel-btn">Avbryt</button>
-    `;
-    const input = element.querySelector('input');
-    const saveBtn = element.querySelector('.save-btn');
-    const cancelBtn = element.querySelector('.cancel-btn');
-
-    saveBtn.onclick = () => {
-      const nyVekt = parseFloat(input.value);
-      if (!isNaN(nyVekt) && nyVekt > 0) {
-        const data = JSON.parse(localStorage.getItem('vektLogg') || '[]');
-        const index = data.findIndex(e => e.id == id);
-        if (index !== -1) {
-          data[index].vekt = nyVekt;
-          localStorage.setItem('vektLogg', JSON.stringify(data));
-          visVektLogg();
-          oppdaterGraf();
-        }
+    function settFastetilstand(erStartet) {
+      if (erStartet) {
+        startFastenBtn.style.display = 'none';
+        startTidInput.style.display = 'none';
+        angiStartTidBtn.style.display = 'none';
+        stoppFastenBtn.style.display = 'block';
       } else {
-        alert("Skriv inn gyldig vekt.");
+        startFastenBtn.style.display = 'block';
+        startTidInput.style.display = 'block';
+        angiStartTidBtn.style.display = 'block';
+        stoppFastenBtn.style.display = 'none';
       }
-    };
-
-    cancelBtn.onclick = () => {
-      visVektLogg();
-    };
-  }
-
-  function slettVekt(id) {
-    if(confirm("Er du sikker på at du vil slette denne vektoppføringen?")) {
-      const data = JSON.parse(localStorage.getItem('vektLogg') || '[]');
-      const nyData = data.filter(e => e.id != id);
-      localStorage.setItem('vektLogg', JSON.stringify(nyData));
-      visVektLogg();
-      oppdaterGraf();
     }
-  }
 
-  // --- Vekt graf med Chart.js ---
-  const ctx = document.getElementById('vektChart').getContext('2d');
-  let vektChart;
-
-  function oppdaterGraf() {
-    const data = JSON.parse(localStorage.getItem('vektLogg') || '[]').sort((a,b) => a.tid - b.tid);
-    const labels = data.map(e => new Date(e.tid).toLocaleDateString());
-    const vektData = data.map(e => e.vekt);
-
-    if(vektChart) {
-      vektChart.data.labels = labels;
-      vektChart.data.datasets[0].data = vektData;
-      vektChart.update();
+    // Init på last
+    if (fasteStart) {
+      settFastetilstand(true);
+      visStartTid();
+      oppdaterTimer();
+      timerInterval = setInterval(oppdaterTimer, 1000);
     } else {
-      vektChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Vekt (kg)',
-            data: vektData,
-            borderColor: 'rgba(11, 61, 145, 0.8)',
-            backgroundColor: 'rgba(11, 61, 145, 0.2)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            borderWidth: 3,
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: { display: true, text: 'Kg' }
-            },
-            x: {
-              title: { display: true, text: 'Dato' }
-            }
-          },
-          plugins: {
-            legend: {
-              display: true,
-              labels: {
-                color: '#0b3d91',
-                font: { weight: 'bold', size: 14 }
-              }
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false,
-            }
-          }
-        }
-      });
+      settFastetilstand(false);
     }
-  }
-
-  // --- Init ---
-  visVektLogg();
-  oppdaterGraf();
-
-  if (fasteStart) {
-    oppdaterTimer();
-    timerInterval = setInterval(oppdaterTimer, 1000);
-  }
-</script>
+  </script>
 
 </body>
 </html>
